@@ -1,7 +1,11 @@
 package br.com.dbccompany.service;
 
+import br.com.dbccompany.dto.PessoaDTO;
 import br.com.dbccompany.dto.RelatorioDTO;
 import br.com.dbccompany.utils.Login;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.parsing.Parser;
 
 import static io.restassured.RestAssured.*;
 
@@ -26,6 +30,42 @@ public class PessoaService {
                 .statusCode(200)
                 .extract().as(RelatorioDTO[].class)
             ;
+        return result;
+    }
+
+    public PessoaDTO criarPessoa(String jsonBody) {
+        defaultParser = Parser.JSON;
+        PessoaDTO result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .contentType(ContentType.JSON)
+                        .body(jsonBody)
+
+                        .when()
+                        .post(baseUri + "/pessoa")
+
+                        .then()
+                        .contentType(ContentType.JSON)
+                        .extract().as(PessoaDTO.class)
+                ;
+        return result;
+    }
+
+    public PessoaDTO listarPorCpf(String cpf) {
+
+        PessoaDTO result =
+                given()
+                        .header("Authorization", tokenAdmin)
+
+                        .when()
+                        .get(baseUri + "/pessoa/{cpf}/cpf")
+
+                        .then()
+                        .log().all()
+                        .statusCode(200)
+                        .extract().as(PessoaDTO.class)
+                ;
         return result;
     }
 }
