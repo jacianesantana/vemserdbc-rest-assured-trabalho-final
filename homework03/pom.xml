@@ -7,7 +7,7 @@
 	<artifactId>aula03</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>aula03</name>
-	<description>Rest Assured - Aula 03</description>
+	<description>Rest Assured - Trabalho Final</description>
 	<properties>
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>

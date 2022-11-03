@@ -1,0 +1,11 @@
+{
+  "idPessoa": 17,
+  "tipo": "RESIDENCIAL",
+  "logradouro": "Av Euclides Figueiredo",
+  "numero": 66,
+  "complemento": "ap 305",
+  "cep": "49100100",
+  "cidade": "Aracaju",
+  "estado": "SE",
+  "pais": "BR"
+}
