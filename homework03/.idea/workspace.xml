@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e7506e89-c34a-49c3-b872-26a1a31c6a54" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../fetch_api_tutorial" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/model/BancoDeDados.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/model/Curriculo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/model/Empresa.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/model/Endereco.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/model/Estudante.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/model/Login.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/model/TipoUsuario.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/model/Usuario.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/model/Vaga.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/service/CurriculoCRUD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/service/EmpresaCRUD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/service/EstudanteCRUD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/src/service/VagaCRUD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vem-ser/vem-ser.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vemser-trabalho-final" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vemserdbc-mamonas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../modulo1 - java/vemserdbc-qa" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../trabalho-final-javascript.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../vemser-dbc-qa" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../vemser-trabalho-final-javascript" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../vemserdbc-javascript" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dbccompany/dto/EnderecoDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dbccompany/dto/PageEnderecoDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dbccompany/dto/PessoaDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dbccompany/dto/RelatorioDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dbccompany/service/EnderecoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dbccompany/service/PessoaService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/dbccompany/utils/Login.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/br/com/dbccompany/aceitacao/EnderecoAceitacaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/br/com/dbccompany/aceitacao/PessoaAceitacaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/data/endereco1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/data/pessoa1.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2H2ujjBANOzeRD3GEzKWfaf9uBp" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/jaciane.santana/Desktop/GIT/vemserdbc-rest-assured-trabalho-final/trabalho-final"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="br.com.dbccompany.dto" />
+      <recent name="br.com.dbccompany.aceitacao" />
+      <recent name="br.com.dbccompany.service" />
+    </key>
+  </component>
+  <component name="RunManager" selected="TestNG.PessoaAceitacaoTest.deveRetornarRelatorioPessoas (1)">
+    <configuration name="EnderecoAceitacaoTest.deveCadastrarEndereco" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="homework03" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.com.dbccompany.aceitacao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="br.com.dbccompany.aceitacao" />
+      <option name="MAIN_CLASS_NAME" value="br.com.dbccompany.aceitacao.EnderecoAceitacaoTest" />
+      <option name="METHOD_NAME" value="deveCadastrarEndereco" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PessoaAceitacaoTest.deveRetornarRelatorioPessoas (1)" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="homework03" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.com.dbccompany.aceitacao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="br.com.dbccompany.aceitacao" />
+      <option name="MAIN_CLASS_NAME" value="br.com.dbccompany.aceitacao.PessoaAceitacaoTest" />
+      <option name="METHOD_NAME" value="deveRetornarRelatorioPessoas" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PessoaAceitacaoTest.deveRetornarRelatorioPessoas" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="aula03" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.com.dbccompany.aceitacao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="br.com.dbccompany.aceitacao" />
+      <option name="MAIN_CLASS_NAME" value="br.com.dbccompany.aceitacao.PessoaAceitacaoTest" />
+      <option name="METHOD_NAME" value="deveRetornarRelatorioPessoas" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PessoaAceitacaoTest.testeDeveConsultarPessoaPorCpf" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="homework03" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.com.dbccompany.aceitacao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="br.com.dbccompany.aceitacao" />
+      <option name="MAIN_CLASS_NAME" value="br.com.dbccompany.aceitacao.PessoaAceitacaoTest" />
+      <option name="METHOD_NAME" value="testeDeveConsultarPessoaPorCpf" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="TestNG.PessoaAceitacaoTest.deveRetornarRelatorioPessoas (1)" />
+        <item itemvalue="TestNG.PessoaAceitacaoTest.testeDeveConsultarPessoaPorCpf" />
+        <item itemvalue="TestNG.EnderecoAceitacaoTest.deveCadastrarEndereco" />
+        <item itemvalue="TestNG.PessoaAceitacaoTest.deveRetornarRelatorioPessoas" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e7506e89-c34a-49c3-b872-26a1a31c6a54" name="Changes" comment="" />
+      <created>1667495647723</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667495647723</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
