@@ -22,12 +22,10 @@ public class PessoaAceitacaoTest {
     public void deveRetornarRelatorioPessoas() {
         RelatorioDTO[] resultService = service.buscarRelatorio();
 
-
         PessoaDTO marta[] = service.consultarPorNome("Marta Golpista");
-        Integer id = Integer.valueOf(marta[0].getIdPessoa());
+        String cpf = marta[0].getIdPessoa();
+        
 
-
-//        Assert.assertEquals(resultService[id].getNomePessoa().toUpperCase(), "Maicon Machado Gerardi".toUpperCase());
     }
 
     @Test
