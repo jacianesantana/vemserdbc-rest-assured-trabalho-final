@@ -29,7 +29,7 @@ public class PessoaAceitacaoTest {
     @Test
     public void testeDeveAdicionarPessoa() throws IOException{
 
-        String jsonBody = lerJson("src/main/resources/data/pessoa1.json");
+        String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
 
 
         PessoaDTO resultService = service.criarPessoa(jsonBody);
@@ -56,7 +56,7 @@ public class PessoaAceitacaoTest {
     @Test
     public void testeDeveDeletarPessoa() throws IOException {
         //Criando nova pessoa
-        String jsonBody = lerJson("src/main/resources/data/pessoa1.json");
+        String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
         PessoaDTO resultService = service.criarPessoa(jsonBody);
 
         Assert.assertEquals(resultService.getNome(), "Marta Golpista");
@@ -77,7 +77,7 @@ public class PessoaAceitacaoTest {
     }
     @Test
     public void testeDeveConsultarPessoaPorCpf() throws IOException{
-        String jsonBody = lerJson("src/main/resources/data/pessoa2.json");
+        String jsonBody = lerJson("src/test/resources/data/pessoa2.json");
         PessoaDTO responseService = service.criarPessoa(jsonBody);
 
         String cpf = "741258963";
@@ -99,13 +99,13 @@ public class PessoaAceitacaoTest {
     @Test
     public void testeDeveAtualizarPessoa() throws IOException {
         //Criando a pessoa
-        String jsonBody = lerJson("src/main/resources/data/pessoa1.json");
+        String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
         PessoaDTO resultService = service.criarPessoa(jsonBody);
         Assert.assertEquals(resultService.getNome(), "Marta Golpista");
         String id = resultService.getIdPessoa();
 
         //Atualizando pessoa
-        String jsonBodyAtualizado = lerJson("src/main/resources/data/pessoa3.json");
+        String jsonBodyAtualizado = lerJson("src/test/resources/data/pessoa3.json");
 
         PessoaDTO resultService1 = service.atualizarPessoa(jsonBodyAtualizado, id);
         Assert.assertEquals(resultService1.getNome(), "Tais Condida");
@@ -123,13 +123,13 @@ public class PessoaAceitacaoTest {
     public void testeDeveTentarAtualizarPessoaComParametrosVazios() throws IOException {
 
         //Criando a pessoa
-        String jsonBody = lerJson("src/main/resources/data/pessoa1.json");
+        String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
         PessoaDTO resultService = service.criarPessoa(jsonBody);
         Assert.assertEquals(resultService.getNome(), "Marta Golpista");
         String id = resultService.getIdPessoa();
 
         //Atualizando pessoa
-        String jsonBodyInvalido = lerJson("src/main/resources/data/pessoaInvalida.json");
+        String jsonBodyInvalido = lerJson("src/test/resources/data/pessoaInvalida.json");
 
         Response resultService1 = service.atualizarPessoaIvalida(jsonBodyInvalido, id);
         Assert.assertEquals(resultService1.getStatusCode(), 400);
@@ -144,14 +144,14 @@ public class PessoaAceitacaoTest {
     public void testeDeveTentarAtualizarPessoaPassandoIdInvalido() throws IOException {
 
         //Criando a pessoa
-        String jsonBody = lerJson("src/main/resources/data/pessoa1.json");
+        String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
         PessoaDTO resultService = service.criarPessoa(jsonBody);
         Assert.assertEquals(resultService.getNome(), "Marta Golpista");
         String id = resultService.getIdPessoa();
 
         //Atualizando pessoa
         String idInvalido = "1231223";
-        String jsonBodyAtualizado = lerJson("src/main/resources/data/pessoa3.json");
+        String jsonBodyAtualizado = lerJson("src/test/resources/data/pessoa3.json");
         Response responseService = service.atualizarPessoaIdInvalido(idInvalido, jsonBodyAtualizado);
         Assert.assertEquals(responseService.getStatusCode(), 404);
 
