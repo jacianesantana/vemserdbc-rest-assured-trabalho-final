@@ -1,24 +1,19 @@
 package br.com.dbccompany.service;
 
+import br.com.dbccompany.dto.PessoaRelatorioDTO;
 import br.com.dbccompany.dto.PessoaDTO;
 import br.com.dbccompany.dto.RelatorioDTO;
-import br.com.dbccompany.dto.ResponseDTO;
 import br.com.dbccompany.utils.Login;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import io.restassured.response.Response;
-
-import java.io.IOException;
 
 import static io.restassured.RestAssured.*;
 
 public class PessoaService {
 
     String baseUri = "http://vemser-dbc.dbccompany.com.br:39000/vemser/dbc-pessoa-api";
-    //String token = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ2ZW1zZXItYXBpIiwianRpIjoiMiIsImNhcmdvcyI6WyJST0x" +
-            //"FX0FETUlOIiwiUk9MRV9VU1VBUklPIiwiUk9MRV9NQVJLRVRJTkciXSwiaWF0IjoxNjY3NDk3MjYxLCJleHAiOjE2N" +
-            //"jc1ODM2NjF9.HF3JYb_p_xk3ceonb0BWuRPEXzwf8yYEEpUSh7HX2oo";
+
     String tokenAdmin = new Login().autenticacaoAdmin();
 
     public RelatorioDTO[] buscarRelatorio() {
@@ -108,6 +103,7 @@ public class PessoaService {
     public Response listarCpfInexistente(String cpf) {
         Response result =
                 given()
+                        .log().all()
                         .header("Authorization", tokenAdmin)
                         .pathParam("cpf", cpf)
 
@@ -178,4 +174,75 @@ public class PessoaService {
                 ;
         return result;
     }
+
+    public RelatorioDTO consultarRelatorio(String id) {
+        RelatorioDTO result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .pathParam("id", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/relatorio?idPessoa={id}")
+
+                        .then()
+                        .log().all()
+                        .extract().as(RelatorioDTO.class)
+                ;
+        return result;
+    }
+
+    public PessoaDTO[] consultarPorNome(String nome) {
+        PessoaDTO[] result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("nome", nome)
+
+
+                        .when()
+                        .get(baseUri + "/pessoa/byname")
+
+                        .then()
+                        .log().all()
+                        .extract().as(PessoaDTO[].class)
+                ;
+        return result;
+    }
+
+    public Response consultarNomeInvalido(String nome) {
+        Response result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("nome", nome)
+
+                        .when()
+                        .get(baseUri + "/pessoa/byname")
+
+                        .then()
+                        .log().all()
+                        .extract().response()
+                        ;
+        return result;
+    }
+
+    public PessoaRelatorioDTO listagemCompleta(String id) {
+        PessoaRelatorioDTO result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("idPessoa", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/lista-completa")
+
+                        .then()
+                        .log().all()
+                        .extract().as(PessoaRelatorioDTO.class)
+                ;
+        return result;
+    }
+
+
 }

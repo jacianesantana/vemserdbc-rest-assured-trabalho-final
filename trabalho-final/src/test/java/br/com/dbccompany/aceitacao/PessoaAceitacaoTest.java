@@ -1,10 +1,9 @@
 package br.com.dbccompany.aceitacao;
 
+import br.com.dbccompany.dto.PessoaRelatorioDTO;
 import br.com.dbccompany.dto.PessoaDTO;
 import br.com.dbccompany.dto.RelatorioDTO;
-import br.com.dbccompany.dto.ResponseDTO;
 import br.com.dbccompany.service.PessoaService;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -23,11 +22,16 @@ public class PessoaAceitacaoTest {
     public void deveRetornarRelatorioPessoas() {
         RelatorioDTO[] resultService = service.buscarRelatorio();
 
-        Assert.assertEquals(resultService[0].getNomePessoa().toUpperCase(), "Maicon Machado Gerardi".toUpperCase());
+
+        PessoaDTO marta[] = service.consultarPorNome("Marta Golpista");
+        Integer id = Integer.valueOf(marta[0].getIdPessoa());
+
+
+//        Assert.assertEquals(resultService[id].getNomePessoa().toUpperCase(), "Maicon Machado Gerardi".toUpperCase());
     }
 
     @Test
-    public void testeDeveAdicionarPessoa() throws IOException{
+    public void deveAdicionarPessoa() throws IOException{
 
         String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
 
@@ -44,7 +48,7 @@ public class PessoaAceitacaoTest {
     }
 
     @Test
-    public void testeDeveTentarCriarPessoaSemDados() throws IOException {
+    public void deveTentarCriarPessoaSemDados() throws IOException {
         String jsonBody = "";
 
         Response resultService = service.naoCriarPessoaVazio(jsonBody);
@@ -54,7 +58,7 @@ public class PessoaAceitacaoTest {
     }
 
     @Test
-    public void testeDeveDeletarPessoa() throws IOException {
+    public void deveDeletarPessoa() throws IOException {
         //Criando nova pessoa
         String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
         PessoaDTO resultService = service.criarPessoa(jsonBody);
@@ -68,7 +72,7 @@ public class PessoaAceitacaoTest {
         Assert.assertEquals(resultService1.getStatusCode(), 200);
     }
     @Test
-    public void testeTentarDeletarPessoaInexistente() throws IOException {
+    public void tentarDeletarPessoaInexistente() throws IOException {
         String idInexistente = "545454";
 
         Response resultService = service.deletarPorId(idInexistente);
@@ -76,7 +80,7 @@ public class PessoaAceitacaoTest {
         Assert.assertEquals(resultService.getStatusCode(), 404);
     }
     @Test
-    public void testeDeveConsultarPessoaPorCpf() throws IOException{
+    public void deveConsultarPessoaPorCpf() throws IOException{
         String jsonBody = lerJson("src/test/resources/data/pessoa2.json");
         PessoaDTO responseService = service.criarPessoa(jsonBody);
 
@@ -89,15 +93,16 @@ public class PessoaAceitacaoTest {
         Assert.assertEquals(resultService.getStatusCode(), 200);
     }
     @Test
-    public void testeDeveConsultarCpfInexistente() throws IOException {
+    public void deveConsultarCpfInexistente() throws IOException {
 
+        //Api deveria retornar código 404 mas retorna 200
         String cpf = "414475847";
         Response resultService = service.listarCpfInexistente(cpf);
         Assert.assertEquals(resultService.getStatusCode(), 403);
     }
 
     @Test
-    public void testeDeveAtualizarPessoa() throws IOException {
+    public void deveAtualizarPessoa() throws IOException {
         //Criando a pessoa
         String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
         PessoaDTO resultService = service.criarPessoa(jsonBody);
@@ -120,7 +125,7 @@ public class PessoaAceitacaoTest {
     }
 
     @Test
-    public void testeDeveTentarAtualizarPessoaComParametrosVazios() throws IOException {
+    public void deveTentarAtualizarPessoaComParametrosVazios() throws IOException {
 
         //Criando a pessoa
         String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
@@ -141,7 +146,7 @@ public class PessoaAceitacaoTest {
     }
 
     @Test
-    public void testeDeveTentarAtualizarPessoaPassandoIdInvalido() throws IOException {
+    public void deveTentarAtualizarPessoaPassandoIdInvalido() throws IOException {
 
         //Criando a pessoa
         String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
@@ -159,6 +164,74 @@ public class PessoaAceitacaoTest {
         Response deleteResult = service.deletarPorId(resultService.getIdPessoa());
         Assert.assertEquals(deleteResult.getStatusCode(), 200);
     }
+
+    @Test
+    public void deveConsultarPessoaPorNome() throws IOException {
+        //Criando a pessoa
+        String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
+        PessoaDTO resultService = service.criarPessoa(jsonBody);
+        Assert.assertEquals(resultService.getNome(), "Marta Golpista");
+        String id = resultService.getIdPessoa();
+
+        //Consultando a pessoa
+        String name = resultService.getNome();
+        PessoaDTO[] responseService = service.consultarPorNome(name);
+        Assert.assertEquals(responseService[0].getNome(), resultService.getNome());
+        Assert.assertEquals(responseService[0].getCpf(), resultService.getCpf());
+        Assert.assertEquals(responseService[0].getEmail(), resultService.getEmail());
+        Assert.assertEquals(responseService[0].getDataNascimento(), resultService.getDataNascimento());
+
+
+        //Deletando o usuário
+        Response result = service.deletarPorId(responseService[0].getIdPessoa());
+        Assert.assertEquals(result.getStatusCode(), 200);
+    }
+
+    @Test
+    public void deveRetornarLista() throws IOException {
+        String id = "80";
+        PessoaRelatorioDTO resultService = service.listagemCompleta(id);
+
+        Assert.assertEquals(resultService, "80");
+    }
+
+
+    @Test
+    public void deveTentarConsultarNomeInvalido() throws IOException {
+        String nomeInvlalido = "Omar Telo";
+        Response resultService = service.consultarNomeInvalido(nomeInvlalido);
+        //Api deveria retornar código 404
+        Assert.assertEquals(resultService.getStatusCode(), 404);
+    }
+
+//    @Test
+//    public void deveRetornarListaPorDataDeNascimento() throws IOException {
+//        String pessoa1 = lerJson("src/test/resources/data/pessoa1.json");
+//        String pessoa2 = lerJson("src/test/resources/data/pessoa2.json");
+//        String pessoa3 = lerJson("src/test/resources/data/pessoa3.json");
+//
+//        PessoaDTO novaPessoa1 = service.criarPessoa(pessoa1);
+//        Assert.assertEquals(novaPessoa1.getNome(), "Marta Golpista");
+//
+//        PessoaDTO novaPessoa2 = service.criarPessoa(pessoa2);
+//        Assert.assertEquals(novaPessoa2.getNome(), "Igor Dinho");
+//
+//        PessoaDTO novaPessoa3 = service.criarPessoa(pessoa3);
+//        Assert.assertEquals(novaPessoa3.getNome(), "Tais Condida");
+//
+//        String dataInicial = "1994-01-01";
+//        String dataFinal = "2010-12-12";
+//        PessoaDTO[] responseService = service.listarPorDataDeNascimento(dataInicial, dataFinal);
+//
+//    }
+
+//    @Test
+//    public void deveConsultarRelatorioPassandoId() throws IOException {
+//        String id = "80";
+//
+//        RelatorioDTO resultBody = service.consultarRelatorio(id);
+//        Assert.assertEquals(resultBody.);
+//    }
 
 
 }
