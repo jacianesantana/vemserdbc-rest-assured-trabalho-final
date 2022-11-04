@@ -1,0 +1,11 @@
+{
+  "idPessoa": 1910,
+  "tipo": "RESIDENCIAL",
+  "logradouro": "Av Silveira Martins",
+  "numero": 13,
+  "complemento": "casa",
+  "cep": "41900900",
+  "cidade": "Salvador",
+  "estado": "BA",
+  "pais": "BR"
+}

@@ -30,6 +30,20 @@ public class ContatoService {
         return result;
     }
 
+    public ContatoDTO[] listarContatos() {
+        ContatoDTO[] result =
+                given()
+                        .header("Authorization", tokenAdmin)
+                        .when()
+                        .get(baseUri + "/contato")
+                        .then()
+                        .log().all()
+                        .statusCode(200)
+                        .extract().as(ContatoDTO[].class)
+                ;
+        return result;
+    }
+
     public ContatoDTO[] listarContatosPorPessoa(String idPessoa) {
         ContatoDTO[] result =
             given()
@@ -37,20 +51,6 @@ public class ContatoService {
                 .pathParam("idPessoa", idPessoa)
             .when()
                 .get(baseUri + "/contato/{idPessoa}")
-            .then()
-                .log().all()
-                .statusCode(200)
-                .extract().as(ContatoDTO[].class)
-            ;
-        return result;
-    }
-
-    public ContatoDTO[] listarContatos() {
-        ContatoDTO[] result =
-            given()
-                .header("Authorization", tokenAdmin)
-            .when()
-                .get(baseUri + "/contato")
             .then()
                 .log().all()
                 .statusCode(200)
