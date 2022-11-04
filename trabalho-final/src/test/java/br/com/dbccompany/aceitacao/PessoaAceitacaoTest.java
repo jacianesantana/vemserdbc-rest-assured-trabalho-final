@@ -2,9 +2,7 @@ package br.com.dbccompany.aceitacao;
 
 import br.com.dbccompany.dto.PessoaDTO;
 import br.com.dbccompany.dto.RelatorioDTO;
-import br.com.dbccompany.dto.ResponseDTO;
 import br.com.dbccompany.service.PessoaService;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;

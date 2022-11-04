@@ -14,13 +14,15 @@ public class EnderecoService {
     String baseUri = "http://vemser-dbc.dbccompany.com.br:39000/vemser/dbc-pessoa-api";
     String tokenAdmin = new Login().autenticacaoAdmin();
 
-    public EnderecoDTO cadastrarEndereco(String idPessoa, String requestBody) {
+    public EnderecoDTO cadastrarEndereco(String idPessoa, EnderecoDTO objEndereco) {
         EnderecoDTO result =
             given()
+                .log().all()
                 .header("Authorization", tokenAdmin)
-                .contentType(ContentType.JSON)
                 .pathParam("idPessoa", idPessoa)
-                .body(requestBody)
+                .queryParam("idPessoa",idPessoa)
+                .contentType(ContentType.JSON)
+                .body(objEndereco)
             .when()
                 .post(baseUri + "/endereco/{idPessoa}")
             .then()

@@ -3,6 +3,7 @@ package br.com.dbccompany.service;
 import br.com.dbccompany.dto.ContatoDTO;
 import br.com.dbccompany.utils.Login;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 
 import java.net.http.HttpResponse;
 
@@ -13,13 +14,13 @@ public class ContatoService {
     String baseUri = "http://vemser-dbc.dbccompany.com.br:39000/vemser/dbc-pessoa-api";
     String tokenAdmin = new Login().autenticacaoAdmin();
 
-    public ContatoDTO cadastrarContato(String idPessoa, String requestBody) {
+    public ContatoDTO cadastrarContato(String idPessoa, ContatoDTO objContato) {
         ContatoDTO result =
             given()
                 .header("Authorization", tokenAdmin)
-                .contentType(ContentType.JSON)
                 .pathParam("idPessoa", idPessoa)
-                .body(requestBody)
+                .contentType(ContentType.JSON)
+                .body(objContato)
             .when()
                 .post(baseUri + "/contato/{idPessoa}")
             .then()
@@ -32,15 +33,15 @@ public class ContatoService {
 
     public ContatoDTO[] listarContatos() {
         ContatoDTO[] result =
-                given()
-                        .header("Authorization", tokenAdmin)
-                        .when()
-                        .get(baseUri + "/contato")
-                        .then()
-                        .log().all()
-                        .statusCode(200)
-                        .extract().as(ContatoDTO[].class)
-                ;
+            given()
+                .header("Authorization", tokenAdmin)
+            .when()
+                .get(baseUri + "/contato")
+            .then()
+                .log().all()
+                .statusCode(200)
+                .extract().as(ContatoDTO[].class)
+            ;
         return result;
     }
 
@@ -59,13 +60,13 @@ public class ContatoService {
         return result;
     }
 
-    public ContatoDTO atualizarContatoPorId(String idContato, String requestBody) {
+    public ContatoDTO atualizarContatoPorId(String idContato, ContatoDTO objContato) {
         ContatoDTO result =
             given()
                 .header("Authorization", tokenAdmin)
-                .contentType(ContentType.JSON)
                 .pathParam("idContato", idContato)
-                .body(requestBody)
+                .contentType(ContentType.JSON)
+                .body(objContato)
             .when()
                 .put(baseUri + "/contato/{idContato}")
             .then()
@@ -76,8 +77,8 @@ public class ContatoService {
         return result;
     }
 
-    public HttpResponse deletarContatoPorId(String idContato) {
-        HttpResponse result =
+    public Response deletarContatoPorId(String idContato) {
+        Response result =
             given()
                 .header("Authorization", tokenAdmin)
                 .pathParam("idContato", idContato)
@@ -86,7 +87,7 @@ public class ContatoService {
             .then()
                 .log().all()
                 .statusCode(200)
-                .extract().as(HttpResponse.class)
+                .extract().response();
             ;
         return result;
     }
