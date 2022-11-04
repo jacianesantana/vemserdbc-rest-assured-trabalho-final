@@ -8,7 +8,6 @@ import lombok.Data;
 public class EnderecoDTO {
 
     private String idPessoa;
-    private String idEndereco;
     private String tipo;
     private String logradouro;
     private Integer numero;
@@ -17,5 +16,6 @@ public class EnderecoDTO {
     private String cidade;
     private String estado;
     private String pais;
+    private String idEndereco;
 
 }

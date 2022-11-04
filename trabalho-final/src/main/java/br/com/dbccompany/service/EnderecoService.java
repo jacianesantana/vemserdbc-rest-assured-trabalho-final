@@ -46,11 +46,11 @@ public class EnderecoService {
         return result;
     }
 
-    public PageEnderecoDTO listarEnderecos(String idEndereco) {
+    public PageEnderecoDTO listarEnderecos(Integer page, Integer size) {
         PageEnderecoDTO result =
             given()
                 .header("Authorization", tokenAdmin)
-                .pathParam("idEndereco", idEndereco)
+                .queryParams("pagina", page, "tamanhoDasPaginas", size)
             .when()
                 .get(baseUri + "/endereco")
             .then()
@@ -61,8 +61,8 @@ public class EnderecoService {
         return result;
     }
 
-    public PageEnderecoDTO listarEnderecosPorPais(String pais) {
-        PageEnderecoDTO result =
+    public EnderecoDTO[] listarEnderecosPorPais(String pais) {
+        EnderecoDTO[] result =
             given()
                 .header("Authorization", tokenAdmin)
                 .pathParam("pais", pais)
@@ -71,13 +71,13 @@ public class EnderecoService {
             .then()
                 .log().all()
                 .statusCode(200)
-                .extract().as(PageEnderecoDTO.class)
+                .extract().as(EnderecoDTO[].class)
             ;
         return result;
     }
 
-    public PageEnderecoDTO listarEnderecosPorPessoa(String idPessoa) {
-        PageEnderecoDTO result =
+    public EnderecoDTO[] listarEnderecosPorPessoa(String idPessoa) {
+        EnderecoDTO[] result =
             given()
                 .header("Authorization", tokenAdmin)
                 .pathParam("idPessoa", idPessoa)
@@ -86,7 +86,7 @@ public class EnderecoService {
             .then()
                 .log().all()
                 .statusCode(200)
-                .extract().as(PageEnderecoDTO.class)
+                .extract().as(EnderecoDTO[].class)
             ;
         return result;
     }

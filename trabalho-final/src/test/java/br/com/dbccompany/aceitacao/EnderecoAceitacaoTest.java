@@ -1,6 +1,7 @@
 package br.com.dbccompany.aceitacao;
 
 import br.com.dbccompany.dto.EnderecoDTO;
+import br.com.dbccompany.dto.PageEnderecoDTO;
 import br.com.dbccompany.service.EnderecoService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -33,4 +34,19 @@ public class EnderecoAceitacaoTest {
 
         service.deletarEnderecoPorId(resultService.getIdEndereco());
     }
+
+    @Test
+    public void deveListarEnderecoPorId() throws IOException {
+        String jsonBody = lerJson("src/test/resources/data/endereco1.json");
+        String idEndereco = "XXX";
+
+        EnderecoDTO resultService = service.listarEnderecoPorId(idEndereco);
+
+        Assert.assertEquals(resultService.getTipo(), "RESIDENCIAL");
+        Assert.assertEquals(resultService.getLogradouro(), "Av Euclides Figueiredo");
+        Assert.assertEquals(resultService.getIdEndereco(), "XXX");
+
+        service.deletarEnderecoPorId(resultService.getIdEndereco());
+    }
+
 }
