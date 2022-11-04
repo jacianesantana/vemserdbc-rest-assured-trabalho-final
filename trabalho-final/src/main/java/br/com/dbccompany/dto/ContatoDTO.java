@@ -10,7 +10,7 @@ public class ContatoDTO {
     private String idPessoa;
     private String tipoContato;
     private String telefone;
-    private Integer descricao;
+    private String descricao;
     private String idContato;
 
 }
