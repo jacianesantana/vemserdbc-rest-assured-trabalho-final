@@ -2,16 +2,13 @@ package br.com.dbccompany.service;
 
 import br.com.dbccompany.dto.PessoaDTO;
 import br.com.dbccompany.dto.RelatorioDTO;
-import br.com.dbccompany.dto.ResponseDTO;
 import br.com.dbccompany.utils.Login;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import io.restassured.response.Response;
 
-import java.io.IOException;
-
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.defaultParser;
+import static io.restassured.RestAssured.given;
 
 public class PessoaService {
 

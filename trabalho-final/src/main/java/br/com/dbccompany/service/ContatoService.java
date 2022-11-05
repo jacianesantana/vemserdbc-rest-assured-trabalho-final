@@ -5,8 +5,6 @@ import br.com.dbccompany.utils.Login;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
-import java.net.http.HttpResponse;
-
 import static io.restassured.RestAssured.given;
 
 public class ContatoService {

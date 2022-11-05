@@ -4,8 +4,7 @@ import br.com.dbccompany.dto.EnderecoDTO;
 import br.com.dbccompany.dto.PageEnderecoDTO;
 import br.com.dbccompany.utils.Login;
 import io.restassured.http.ContentType;
-
-import java.net.http.HttpResponse;
+import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
@@ -110,8 +109,8 @@ public class EnderecoService {
         return result;
     }
 
-    public HttpResponse deletarEnderecoPorId(String idEndereco) {
-        HttpResponse result =
+    public Response deletarEnderecoPorId(String idEndereco) {
+        Response result =
             given()
                 .header("Authorization", tokenAdmin)
                 .pathParam("idEndereco", idEndereco)
@@ -120,7 +119,7 @@ public class EnderecoService {
             .then()
                 .log().all()
                 .statusCode(200)
-                .extract().as(HttpResponse.class)
+                .extract().response()
             ;
         return result;
     }
