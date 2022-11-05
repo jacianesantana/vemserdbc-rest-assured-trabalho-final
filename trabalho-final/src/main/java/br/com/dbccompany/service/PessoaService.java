@@ -1,14 +1,18 @@
 package br.com.dbccompany.service;
 
 import br.com.dbccompany.dto.PessoaDTO;
+import br.com.dbccompany.dto.PessoaRelatorioDTO;
 import br.com.dbccompany.dto.RelatorioDTO;
+import br.com.dbccompany.dto.ResponseDTO;
 import br.com.dbccompany.utils.Login;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.defaultParser;
-import static io.restassured.RestAssured.given;
+import java.io.IOException;
+
+import static io.restassured.RestAssured.*;
 
 public class PessoaService {
 
@@ -172,4 +176,75 @@ public class PessoaService {
                 ;
         return result;
     }
+
+    public RelatorioDTO consultarRelatorio(String id) {
+        RelatorioDTO result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .pathParam("id", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/relatorio?idPessoa={id}")
+
+                        .then()
+                        .log().all()
+                        .extract().as(RelatorioDTO.class)
+                ;
+        return result;
+    }
+
+    public PessoaDTO[] consultarPorNome(String nome) {
+        PessoaDTO[] result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("nome", nome)
+
+
+                        .when()
+                        .get(baseUri + "/pessoa/byname")
+
+                        .then()
+                        .log().all()
+                        .extract().as(PessoaDTO[].class)
+                ;
+        return result;
+    }
+
+    public Response consultarNomeInvalido(String nome) {
+        Response result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("nome", nome)
+
+                        .when()
+                        .get(baseUri + "/pessoa/byname")
+
+                        .then()
+                        .log().all()
+                        .extract().response()
+                        ;
+        return result;
+    }
+
+    public PessoaRelatorioDTO listagemCompleta(String id) {
+        PessoaRelatorioDTO result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("idPessoa", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/lista-completa")
+
+                        .then()
+                        .log().all()
+                        .extract().as(PessoaRelatorioDTO.class)
+                ;
+        return result;
+    }
+
+
 }
