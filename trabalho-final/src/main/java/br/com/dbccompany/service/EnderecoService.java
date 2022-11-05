@@ -34,16 +34,16 @@ public class EnderecoService {
 
     public PageEnderecoDTO listarEnderecos(Integer page, Integer size) {
         PageEnderecoDTO result =
-                given()
-                        .header("Authorization", tokenAdmin)
-                        .queryParams("pagina", page, "tamanhoDasPaginas", size)
-                        .when()
-                        .get(baseUri + "/endereco")
-                        .then()
-                        .log().all()
-                        .statusCode(200)
-                        .extract().as(PageEnderecoDTO.class)
-                ;
+            given()
+                .header("Authorization", tokenAdmin)
+                .queryParams("pagina", page, "tamanhoDasPaginas", size)
+            .when()
+                .get(baseUri + "/endereco")
+            .then()
+                .log().all()
+                .statusCode(200)
+                .extract().as(PageEnderecoDTO.class)
+            ;
         return result;
     }
 
@@ -92,13 +92,13 @@ public class EnderecoService {
         return result;
     }
 
-    public EnderecoDTO atualizarEnderecoPorId(String idEndereco, String requestBody) {
+    public EnderecoDTO atualizarEnderecoPorId(String idEndereco, EnderecoDTO objEndereco) {
         EnderecoDTO result =
             given()
                 .header("Authorization", tokenAdmin)
                 .contentType(ContentType.JSON)
                 .pathParam("idEndereco", idEndereco)
-                .body(requestBody)
+                .body(objEndereco)
             .when()
                 .put(baseUri + "/endereco/{idEndereco}")
             .then()
@@ -123,4 +123,5 @@ public class EnderecoService {
             ;
         return result;
     }
+
 }

@@ -2,9 +2,7 @@ package br.com.dbccompany.aceitacao;
 
 import br.com.dbccompany.dto.*;
 import br.com.dbccompany.service.PessoaService;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.restassured.response.Response;
-import org.apache.groovy.json.internal.IO;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -13,17 +11,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class PessoaAceitacaoTest {
     public String lerJson(String caminhoJson) throws IOException {
         return new String(Files.readAllBytes(Paths.get(caminhoJson)));
     }
+
     PessoaService service = new PessoaService();
 
     @Test
     public void deveRetornarRelatorioPessoas() {
-        RelatorioDTO[] resultService = service.buscarRelatorio();
+        PessoaRelatorioDTO[] resultService = service.buscarRelatorio();
 
         PessoaDTO marta[] = service.consultarPorNome("Marta Golpista");
         String cpf = marta[0].getCpf();
@@ -34,9 +34,7 @@ public class PessoaAceitacaoTest {
 
     @Test
     public void deveAdicionarPessoa() throws IOException{
-
         String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
-
 
         PessoaDTO resultService = service.criarPessoa(jsonBody);
 
@@ -44,19 +42,17 @@ public class PessoaAceitacaoTest {
         Assert.assertEquals(resultService.getEmail(), "marta@golpista.com");
         Assert.assertEquals(resultService.getDataNascimento(), "2000-05-09");
 
-
         Response resultService1 = service.deletarPorId(resultService.getIdPessoa());
         Assert.assertEquals(resultService1.getStatusCode(), 200);
     }
 
     @Test
-    public void deveTentarCriarPessoaSemDados() throws IOException {
+    public void deveTentarCriarPessoaSemDados() {
         String jsonBody = "";
 
         Response resultService = service.naoCriarPessoaVazio(jsonBody);
 
         Assert.assertEquals(resultService.getStatusCode(), 400);
-
     }
 
     @Test
@@ -73,14 +69,16 @@ public class PessoaAceitacaoTest {
         Response resultService1 = service.deletarPorId(resultService.getIdPessoa());
         Assert.assertEquals(resultService1.getStatusCode(), 200);
     }
+
     @Test
-    public void tentarDeletarPessoaInexistente() throws IOException {
+    public void tentarDeletarPessoaInexistente() {
         String idInexistente = "545454";
 
         Response resultService = service.deletarPorId(idInexistente);
 
         Assert.assertEquals(resultService.getStatusCode(), 404);
     }
+
     @Test
     public void deveConsultarPessoaPorCpf() throws IOException{
         String jsonBody = lerJson("src/test/resources/data/pessoa2.json");
@@ -94,12 +92,15 @@ public class PessoaAceitacaoTest {
         Response resultService = service.deletarPorId(responseService.getIdPessoa());
         Assert.assertEquals(resultService.getStatusCode(), 200);
     }
-    @Test
-    public void deveConsultarCpfInexistente() throws IOException {
 
+    @Test
+    public void deveConsultarCpfInexistente() {
         //Api deveria retornar código 404 mas retorna 200
+
         String cpf = "414475847";
+
         Response resultService = service.listarCpfInexistente(cpf);
+
         Assert.assertEquals(resultService.getStatusCode(), 403);
     }
 
@@ -120,7 +121,6 @@ public class PessoaAceitacaoTest {
         Assert.assertEquals(resultService1.getCpf(), "855462");
         Assert.assertEquals(resultService1.getEmail(), "tais@condida.com");
 
-
         //Deletando pessoa
         Response deleteResult = service.deletarPorId(resultService1.getIdPessoa());
         Assert.assertEquals(deleteResult.getStatusCode(), 200);
@@ -128,7 +128,6 @@ public class PessoaAceitacaoTest {
 
     @Test
     public void deveTentarAtualizarPessoaComParametrosVazios() throws IOException {
-
         //Criando a pessoa
         String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
         PessoaDTO resultService = service.criarPessoa(jsonBody);
@@ -141,7 +140,6 @@ public class PessoaAceitacaoTest {
         Response resultService1 = service.atualizarPessoaIvalida(jsonBodyInvalido, id);
         Assert.assertEquals(resultService1.getStatusCode(), 400);
 
-
         //Deletando pessoa
         Response deleteResult = service.deletarPorId(resultService.getIdPessoa());
         Assert.assertEquals(deleteResult.getStatusCode(), 200);
@@ -149,7 +147,6 @@ public class PessoaAceitacaoTest {
 
     @Test
     public void deveTentarAtualizarPessoaPassandoIdInvalido() throws IOException {
-
         //Criando a pessoa
         String jsonBody = lerJson("src/test/resources/data/pessoa1.json");
         PessoaDTO resultService = service.criarPessoa(jsonBody);
@@ -183,31 +180,32 @@ public class PessoaAceitacaoTest {
         Assert.assertEquals(responseService[0].getEmail(), resultService.getEmail());
         Assert.assertEquals(responseService[0].getDataNascimento(), resultService.getDataNascimento());
 
-
         //Deletando o usuário
         Response result = service.deletarPorId(responseService[0].getIdPessoa());
         Assert.assertEquals(result.getStatusCode(), 200);
     }
 
     @Test
-    public void deveRetornarLista() throws IOException {
+    public void deveRetornarLista() {
         String id = "80";
+
         PessoaRelatorioDTO resultService = service.listagemCompleta(id);
 
         Assert.assertEquals(resultService, "80");
     }
 
-
     @Test
-    public void deveTentarConsultarNomeInvalido() throws IOException {
+    public void deveTentarConsultarNomeInvalido() {
         String nomeInvlalido = "Omar Telo";
+
         Response resultService = service.consultarNomeInvalido(nomeInvlalido);
+
         //Api deveria retornar código 404
         Assert.assertEquals(resultService.getStatusCode(), 404);
     }
 
     @Test
-    public void deveListarTodasAsPessoas() throws IOException {
+    public void deveListarTodasAsPessoas() {
         PessoaListaCompletaDTO resultResponse = service.listarTodos();
 
         assertThat(resultResponse.getTotalElements(), greaterThan("0"));
@@ -219,7 +217,7 @@ public class PessoaAceitacaoTest {
         PessoaDTO novaPessoa = service.criarPessoa(jsonBody);
         String id = novaPessoa.getIdPessoa();
 
-        RelatorioDTO[] resultResponse = service.buscarRelatorioComId(id);
+        PessoaRelatorioDTO[] resultResponse = service.buscarRelatorioComId(id);
 
         Assert.assertEquals(resultResponse[0].getNomePessoa(), novaPessoa.getNome());
 
@@ -233,7 +231,7 @@ public class PessoaAceitacaoTest {
         PessoaDTO novaPessoa = service.criarPessoa(jsonBody);
         String id = novaPessoa.getIdPessoa();
 
-        ListaPessoaDTO[] responseResult = service.listarPessoaCompleta(id);
+        PessoaCompletaDTO[] responseResult = service.listarPessoaCompleta(id);
         Assert.assertEquals(responseResult[0].getNome(), novaPessoa.getNome());
         Assert.assertEquals(responseResult[0].getCpf(), novaPessoa.getCpf());
         Assert.assertEquals(responseResult[0].getEmail(), novaPessoa.getEmail());
@@ -242,8 +240,9 @@ public class PessoaAceitacaoTest {
         Response deletePessoa = service.deletarPorId(id);
         Assert.assertEquals(deletePessoa.getStatusCode(), 200);
     }
+
     @Test
-    public void deveTentarRetornarListaCompletaDePessoaComIdInvalido() throws IOException {
+    public void deveTentarRetornarListaCompletaDePessoaComIdInvalido() {
         String id = "787878";
 
         Response responseResult = service.listarPessoaIdInvalido(id);
@@ -270,12 +269,14 @@ public class PessoaAceitacaoTest {
     }
 
     @Test
-    public void deveTentarRetornarPessoaComEnderecoPassandoIdInvalido() throws IOException {
+    public void deveTentarRetornarPessoaComEnderecoPassandoIdInvalido() {
         String id = "787879";
+
         Response resultResponse = service.retornarInvalidoComEndereco(id);
+
         Assert.assertEquals(resultResponse.getStatusCode(), 404);
     }
-    //
+
     @Test
     public void deveRetornarPessoaComContato() throws IOException {
         //Criando pessoa
@@ -293,9 +294,12 @@ public class PessoaAceitacaoTest {
     }
 
     @Test
-    public void deveTentarRetornarPessoaComContatoPassandoIdInvalido() throws IOException {
+    public void deveTentarRetornarPessoaComContatoPassandoIdInvalido() {
         String id = "787879";
+
         Response resultResponse = service.retornarInvalidoComContato(id);
+
         Assert.assertEquals(resultResponse.getStatusCode(), 404);
     }
+
 }
