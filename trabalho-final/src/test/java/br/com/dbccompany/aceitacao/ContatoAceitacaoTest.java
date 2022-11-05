@@ -116,19 +116,19 @@ public class ContatoAceitacaoTest {
         Assert.assertEquals(resultService.statusCode(), 404);
     }
 
-/*    @Test
+    @Test
     public void deveAtualizarContatoPorId() throws IOException {
         PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
         ContatoDTO objContato = gson.fromJson(jsonBody, ContatoDTO.class);
         objContato.setIdPessoa(pessoa.getIdPessoa());
-        service.cadastrarContato(pessoa.getIdPessoa(), objContato);
+        ContatoDTO contato = service.cadastrarContato(pessoa.getIdPessoa(), objContato);
 
         String jsonBody2 = lerJson("src/test/resources/data/contato2.json");
         ContatoDTO objContato2 = gson.fromJson(jsonBody2, ContatoDTO.class);
         objContato2.setIdPessoa(pessoa.getIdPessoa());
-        objContato2.setIdContato(objContato.getIdContato());
+        objContato2.setIdContato(contato.getIdContato());
 
-        ContatoDTO resultService = service.atualizarContatoPorId(objContato.getIdContato(), objContato2);
+        ContatoDTO resultService = service.atualizarContatoPorId(contato.getIdContato(), objContato2);
 
         Assert.assertEquals(resultService.getIdContato(), objContato2.getIdContato());
         Assert.assertEquals(resultService.getIdPessoa(), pessoa.getIdPessoa());
@@ -137,7 +137,88 @@ public class ContatoAceitacaoTest {
 
         service.deletarContatoPorId(resultService.getIdContato());
         servicePessoa.deletarPorId(pessoa.getIdPessoa());
-    }*/
+    }
+
+    @Test
+    public void deveNaoAtualizarContatoComBodyVazio() throws IOException {
+        PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
+        ContatoDTO objContato = gson.fromJson(jsonBody, ContatoDTO.class);
+        objContato.setIdPessoa(pessoa.getIdPessoa());
+        ContatoDTO contato = service.cadastrarContato(pessoa.getIdPessoa(), objContato);
+
+        String jsonBodyVazio = lerJson("src/test/resources/data/contato-vazio.json");
+        ContatoDTO objContato2 = gson.fromJson(jsonBodyVazio, ContatoDTO.class);
+        objContato2.setIdPessoa(contato.getIdContato());
+        objContato2.setIdContato(contato.getIdContato());
+
+        Response resultService = service.atualizarContatoPorIdInvalido(contato.getIdContato(), objContato2);
+
+        Assert.assertEquals(resultService.statusCode(), 400);
+
+        service.deletarContatoPorId(contato.getIdContato());
+        servicePessoa.deletarPorId(pessoa.getIdPessoa());
+    }
+
+    @Test
+    public void deveNaoAtualizarContatoComIdPessoaInexistente() throws IOException {
+        PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
+        ContatoDTO objContato = gson.fromJson(jsonBody, ContatoDTO.class);
+        objContato.setIdPessoa(pessoa.getIdPessoa());
+        ContatoDTO contato = service.cadastrarContato(pessoa.getIdPessoa(), objContato);
+
+        String idPessoaInvalido = "19931019";
+
+        String jsonBody2 = lerJson("src/test/resources/data/contato2.json");
+        ContatoDTO objContato2 = gson.fromJson(jsonBody2, ContatoDTO.class);
+        objContato2.setIdPessoa(idPessoaInvalido);
+        objContato2.setIdContato(contato.getIdContato());
+
+        Response resultService = service.atualizarContatoPorIdInvalido(idPessoaInvalido, objContato2);
+
+        Assert.assertEquals(resultService.statusCode(), 404);
+
+        service.deletarContatoPorId(contato.getIdContato());
+        servicePessoa.deletarPorId(pessoa.getIdPessoa());
+    }
+
+    @Test
+    public void deveNaoAtualizarContatoComIdContatoPertencenteAOutroIdPessoa() throws IOException {
+        // Ao passar no path o idContato de uma pessoa e no body o idPessoa de outra pessoa,
+        // ambas tendo contato cadastrado
+        // Na resposta informa atualizar o contato referente a pessoa do idPessoa
+        // mas ao buscar no banco de dados, está atualizando o contato referente a pessoa do idContato
+        // ou seja, não está validando o idPessoa
+
+        PessoaDTO pessoa1 = servicePessoa.criarPessoa(jsonBodyPessoa);
+        ContatoDTO objContato1 = gson.fromJson(jsonBody, ContatoDTO.class);
+        objContato1.setIdPessoa(pessoa1.getIdPessoa());
+        ContatoDTO contatoPessoa1 = service.cadastrarContato(pessoa1.getIdPessoa(), objContato1);
+
+        String jsonBodyPessoa2 = lerJson("src/test/resources/data/pessoa2.json");
+        PessoaDTO pessoa2 = servicePessoa.criarPessoa(jsonBodyPessoa2);
+        String jsonBody2 = lerJson("src/test/resources/data/contato2.json");
+        ContatoDTO objContato2 = gson.fromJson(jsonBody2, ContatoDTO.class);
+        objContato2.setIdPessoa(pessoa1.getIdPessoa());
+        ContatoDTO contatoPessoa2 = service.cadastrarContato(pessoa2.getIdPessoa(), objContato2);
+
+        String jsonBody3 = lerJson("src/test/resources/data/contato3.json");
+        ContatoDTO objContato3 = gson.fromJson(jsonBody3, ContatoDTO.class);
+        objContato3.setIdPessoa(contatoPessoa2.getIdPessoa());
+        objContato3.setIdContato(contatoPessoa2.getIdContato());
+
+        //Response response = service.atualizarContatoPorIdInvalido(contatoPessoa1.getIdContato(), objContato3);
+        ContatoDTO resultService = service.atualizarContatoPorId(contatoPessoa1.getIdContato(), objContato3);
+
+        //Assert.assertEquals(response.statusCode(), 404);
+        Assert.assertEquals(resultService.getIdContato(), objContato2.getIdContato());
+        Assert.assertEquals(resultService.getIdPessoa(), objContato1.getIdPessoa());
+        Assert.assertEquals(resultService.getTelefone(), "(85)99999-9999");
+
+        service.deletarContatoPorId(contatoPessoa1.getIdContato());
+        service.deletarContatoPorId(contatoPessoa2.getIdContato());
+        servicePessoa.deletarPorId(pessoa1.getIdPessoa());
+        servicePessoa.deletarPorId(pessoa2.getIdPessoa());
+    }
 
     @Test
     public void deveDeletarContatoPorId() {

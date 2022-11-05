@@ -107,6 +107,22 @@ public class ContatoService {
         return result;
     }
 
+    public Response atualizarContatoPorIdInvalido(String idContato, ContatoDTO objContato) {
+        Response result =
+            given()
+                .header("Authorization", tokenAdmin)
+                .pathParam("idContato", idContato)
+                .contentType(ContentType.JSON)
+                .body(objContato)
+            .when()
+                .put(baseUri + "/contato/{idContato}")
+            .then()
+                .log().all()
+                .extract().response()
+            ;
+        return result;
+    }
+
     public Response deletarContatoPorId(String idContato) {
         Response result =
             given()

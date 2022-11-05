@@ -6,6 +6,7 @@ import br.com.dbccompany.dto.PessoaDTO;
 import br.com.dbccompany.service.EnderecoService;
 import br.com.dbccompany.service.PessoaService;
 import com.google.gson.Gson;
+import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -32,6 +33,10 @@ public class EnderecoAceitacaoTest {
 
     @Test
     public void deveCadastrarEndereco() {
+        // "/endereco/{idPessoa}" -> uri diferentes <- "/endereco/{idPessoa}?idPessoa={idPessoa}"
+        // Verificar necessidade de path e query do mesmo elemento na uri
+        // Teste cadastra endereço e retorna 200, porém no swagger dá erro 400
+
         PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
         EnderecoDTO objEndereco = gson.fromJson(jsonBody, EnderecoDTO.class);
         objEndereco.setIdPessoa(pessoa.getIdPessoa());
@@ -47,7 +52,39 @@ public class EnderecoAceitacaoTest {
         servicePessoa.deletarPorId(pessoa.getIdPessoa());
     }
 
-    /*@Test
+    @Test
+    public void deveNaoCadastrarEnderecoComParametroIdPessoaInexistente() {
+        // Teste não cadastra endereço e retorna 404 com message "ID da pessoa nao encontrada"
+        // porém no swagger dá erro 400 com message "response status is 400"
+
+        EnderecoDTO objEndereco = gson.fromJson(jsonBody, EnderecoDTO.class);
+        //objEndereco.setIdPessoa(pessoa.getIdPessoa());
+
+        Response resultService = service.cadastrarEnderecoInvalido("19931019", objEndereco);
+
+        Assert.assertEquals(resultService.statusCode(), 404);
+    }
+
+    @Test
+    public void deveNaoCadastrarEnderecoComIdsPessoaDiferentes() {
+        // Ao passar ids diferentes no path e no body, deveria não cadastrar endereço,
+        // mas está cadastrando no idPessoa do path
+
+        PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
+        EnderecoDTO objEndereco = gson.fromJson(jsonBody, EnderecoDTO.class);
+        //objEndereco.setIdPessoa(pessoa.getIdPessoa());
+
+        EnderecoDTO resultService = service.cadastrarEndereco(pessoa.getIdPessoa(), objEndereco);
+
+        Assert.assertNotEquals(pessoa.getIdPessoa(), objEndereco.getIdPessoa());
+        Assert.assertEquals(resultService.getTipo(), "RESIDENCIAL");
+        Assert.assertEquals(resultService.getCidade(), "Aracaju");
+
+        service.deletarEnderecoPorId(resultService.getIdEndereco());
+        servicePessoa.deletarPorId(pessoa.getIdPessoa());
+    }
+
+    @Test
     public void deveListarEnderecos() {
         PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
         EnderecoDTO objEndereco = gson.fromJson(jsonBody, EnderecoDTO.class);
@@ -64,7 +101,7 @@ public class EnderecoAceitacaoTest {
 
         service.deletarEnderecoPorId(resultService.getContent().get(0).getIdEndereco());
         servicePessoa.deletarPorId(pessoa.getIdPessoa());
-    }*/
+    }
 
 /*    @Test
     public void deveListarEnderecoPorId() {
