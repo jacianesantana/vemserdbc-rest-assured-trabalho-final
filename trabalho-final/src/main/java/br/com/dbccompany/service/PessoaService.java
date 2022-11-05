@@ -1,9 +1,6 @@
 package br.com.dbccompany.service;
 
-import br.com.dbccompany.dto.PessoaDTO;
-import br.com.dbccompany.dto.PessoaRelatorioDTO;
-import br.com.dbccompany.dto.RelatorioDTO;
-import br.com.dbccompany.dto.ResponseDTO;
+import br.com.dbccompany.dto.*;
 import br.com.dbccompany.utils.Login;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -32,6 +29,23 @@ public class PessoaService {
                 .statusCode(200)
                 .extract().as(RelatorioDTO[].class)
             ;
+        return result;
+    }
+
+    public RelatorioDTO[] buscarRelatorioComId(String id) {
+        RelatorioDTO[] result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("idPessoa", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/relatorio")
+
+                        .then()
+                        .log().all()
+                        .extract().as(RelatorioDTO[].class)
+                ;
         return result;
     }
 
@@ -246,5 +260,121 @@ public class PessoaService {
         return result;
     }
 
+    public PessoaListaCompletaDTO listarTodos() {
+        PessoaListaCompletaDTO result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+
+                        .when()
+                        .get(baseUri + "/pessoa")
+
+                        .then()
+                        .log().all()
+                        .extract().as(PessoaListaCompletaDTO.class)
+                ;
+        return result;
+    }
+
+    public ListaPessoaDTO[] listarPessoaCompleta(String id) {
+        ListaPessoaDTO[] result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("idPessoa", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/lista-completa")
+
+                        .then()
+                        .log().all()
+                        .extract().as(ListaPessoaDTO[].class)
+                ;
+        return result;
+    }
+    public Response listarPessoaIdInvalido(String id) {
+        Response result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("idPessoa", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/lista-completa")
+
+                        .then()
+                        .log().all()
+                        .extract().response()
+                ;
+        return result;
+    }
+
+    public PessoaComEnredecoDTO[] retornarComEndereco(String id) {
+        PessoaComEnredecoDTO[] result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("idPessoa", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/lista-com-enderecos")
+
+                        .then()
+                        .log().all()
+                        .extract().as(PessoaComEnredecoDTO[].class)
+                ;
+        return result;
+    }
+
+    public Response retornarInvalidoComEndereco(String id) {
+        Response result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("idPessoa", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/lista-com-enderecos")
+
+                        .then()
+                        .log().all()
+                        .extract().response()
+                ;
+        return result;
+    }
+
+    public PessoaComContatoDTO[] retornarComContato(String id) {
+        PessoaComContatoDTO[] result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("idPessoa", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/lista-com-contatos")
+
+                        .then()
+                        .log().all()
+                        .extract().as(PessoaComContatoDTO[].class)
+                ;
+        return result;
+    }
+
+    public Response retornarInvalidoComContato(String id) {
+        Response result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdmin)
+                        .queryParam("idPessoa", id)
+
+                        .when()
+                        .get(baseUri + "/pessoa/lista-com-contatos")
+
+                        .then()
+                        .log().all()
+                        .extract().response()
+                ;
+        return result;
+    }
 
 }
