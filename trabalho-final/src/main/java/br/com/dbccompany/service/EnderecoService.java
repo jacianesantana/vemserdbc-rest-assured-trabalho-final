@@ -16,7 +16,6 @@ public class EnderecoService {
     public EnderecoDTO cadastrarEndereco(String idPessoa, EnderecoDTO objEndereco) {
         EnderecoDTO result =
             given()
-                .log().all()
                 .header("Authorization", tokenAdmin)
                 .pathParam("idPessoa", idPessoa)
                 .queryParam("idPessoa",idPessoa)
@@ -28,6 +27,24 @@ public class EnderecoService {
                 .log().all()
                 .statusCode(200)
                 .extract().as(EnderecoDTO.class)
+            ;
+        return result;
+    }
+
+    public Response cadastrarEnderecoInvalido(String idPessoa, EnderecoDTO objEndereco) {
+        Response result =
+            given()
+                .header("Authorization", tokenAdmin)
+                .pathParam("idPessoa", idPessoa)
+                .queryParam("idPessoa",idPessoa)
+                .contentType(ContentType.JSON)
+                .body(objEndereco)
+            .when()
+                .post(baseUri + "/endereco/{idPessoa}")
+            .then()
+                .log().all()
+                .statusCode(404)
+                .extract().response()
             ;
         return result;
     }
