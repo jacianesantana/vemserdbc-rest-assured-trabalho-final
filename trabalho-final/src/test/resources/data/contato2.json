@@ -1,6 +1,6 @@
 {
-  "idPessoa": 0,
+  "idPessoa": "",
   "tipoContato": "RESIDENCIAL",
   "telefone": "(71)98765-4321",
-  "descricao": "whatsapp"
+  "descricao": "telefone"
 }

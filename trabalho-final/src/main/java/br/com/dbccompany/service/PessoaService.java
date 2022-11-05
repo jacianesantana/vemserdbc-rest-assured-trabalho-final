@@ -52,211 +52,185 @@ public class PessoaService {
     public PessoaDTO criarPessoa(String jsonBody) {
         defaultParser = Parser.JSON;
         PessoaDTO result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-                        .contentType(ContentType.JSON)
-                        .body(jsonBody)
-
-                        .when()
-                        .post(baseUri + "/pessoa")
-
-                        .then()
-                        .contentType(ContentType.JSON)
-                        .extract().as(PessoaDTO.class)
-                ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+                .contentType(ContentType.JSON)
+                .body(jsonBody)
+            .when()
+                .post(baseUri + "/pessoa")
+            .then()
+                .contentType(ContentType.JSON)
+                .extract().as(PessoaDTO.class)
+            ;
         return result;
     }
     public Response naoCriarPessoaVazio(String jsonBody) {
         Response result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-                        .contentType(ContentType.JSON)
-                        .body(jsonBody)
-
-                        .when()
-                        .post(baseUri + "/pessoa")
-
-                        .then()
-                        .extract().response()
-                ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+                .contentType(ContentType.JSON)
+                .body(jsonBody)
+            .when()
+                .post(baseUri + "/pessoa")
+            .then()
+                .extract().response()
+            ;
         return result;
     }
     public Response deletarPorId(String id) {
         Response result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-
-                        .when()
-                        .delete(baseUri + "/pessoa/" + id)
-
-                        .then()
-
-                        .extract().response()
-                ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+            .when()
+                .delete(baseUri + "/pessoa/" + id)
+            .then()
+                .extract().response()
+            ;
         return result;
     }
 
     public PessoaDTO listarPorCpf(String cpf) {
 
         PessoaDTO result =
-                given()
-                        .header("Authorization", tokenAdmin)
-                        .pathParam("cpf", cpf)
-
-                        .when()
-                        .get(baseUri + "/pessoa/{cpf}/cpf")
-
-                        .then()
-                        .log().all()
-                        .statusCode(200)
-                        .extract().as(PessoaDTO.class)
-                ;
+            given()
+                .header("Authorization", tokenAdmin)
+                .pathParam("cpf", cpf)
+            .when()
+                .get(baseUri + "/pessoa/{cpf}/cpf")
+            .then()
+                .log().all()
+                .statusCode(200)
+                .extract().as(PessoaDTO.class)
+            ;
         return result;
     }
 
     public Response listarCpfInexistente(String cpf) {
         Response result =
-                given()
-                        .header("Authorization", tokenAdmin)
-                        .pathParam("cpf", cpf)
-
-                        .when()
-                        .get(baseUri + "/pessoa/{cpf}/cpf")
-
-                        .then()
-                        .log().all()
-                        .statusCode(403)
-                        .extract().response()
-                ;
+            given()
+                .header("Authorization", tokenAdmin)
+                .pathParam("cpf", cpf)
+            .when()
+                .get(baseUri + "/pessoa/{cpf}/cpf")
+            .then()
+                .log().all()
+                .statusCode(403)
+                .extract().response()
+            ;
         return result;
     }
 
     public PessoaDTO atualizarPessoa(String jsonBodyAtualizado, String id) {
         PessoaDTO result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-                        .pathParam("id", id)
-                        .contentType(ContentType.JSON)
-                        .body(jsonBodyAtualizado)
-
-                        .when()
-                        .put(baseUri + "/pessoa/{id}")
-
-                        .then()
-                        .log().all()
-                        .extract().as(PessoaDTO.class)
-                ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+                .pathParam("id", id)
+                .contentType(ContentType.JSON)
+                .body(jsonBodyAtualizado)
+            .when()
+                .put(baseUri + "/pessoa/{id}")
+            .then()
+                .log().all()
+                .extract().as(PessoaDTO.class)
+            ;
         return result;
     }
 
     public Response atualizarPessoaIvalida(String jsonBodyInvalido, String id) {
         Response result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-                        .pathParam("id", id)
-                        .contentType(ContentType.JSON)
-                        .body(jsonBodyInvalido)
-
-                        .when()
-                        .put(baseUri + "/pessoa/{id}")
-
-                        .then()
-                        .log().all()
-                        .extract().response()
-                ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+                .pathParam("id", id)
+                .contentType(ContentType.JSON)
+                .body(jsonBodyInvalido)
+            .when()
+                .put(baseUri + "/pessoa/{id}")
+            .then()
+                .log().all()
+                .extract().response()
+            ;
         return result;
     }
 
     public Response atualizarPessoaIdInvalido(String idInvalido, String jsonBodyAtualizado) {
         Response result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-                        .pathParam("idInvalido", idInvalido)
-                        .contentType(ContentType.JSON)
-                        .body(jsonBodyAtualizado)
-
-                        .when()
-                        .put(baseUri + "/pessoa/{idInvalido}")
-
-                        .then()
-                        .log().all()
-                        .extract().response()
-                ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+                .pathParam("idInvalido", idInvalido)
+                .contentType(ContentType.JSON)
+                .body(jsonBodyAtualizado)
+            .when()
+                .put(baseUri + "/pessoa/{idInvalido}")
+            .then()
+                .log().all()
+                .extract().response()
+            ;
         return result;
     }
 
     public RelatorioDTO consultarRelatorio(String id) {
         RelatorioDTO result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-                        .pathParam("id", id)
-
-                        .when()
-                        .get(baseUri + "/pessoa/relatorio?idPessoa={id}")
-
-                        .then()
-                        .log().all()
-                        .extract().as(RelatorioDTO.class)
-                ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+                .pathParam("id", id)
+            .when()
+                .get(baseUri + "/pessoa/relatorio?idPessoa={id}")
+            .then()
+                .log().all()
+                .extract().as(RelatorioDTO.class)
+            ;
         return result;
     }
 
     public PessoaDTO[] consultarPorNome(String nome) {
         PessoaDTO[] result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-                        .queryParam("nome", nome)
-
-
-                        .when()
-                        .get(baseUri + "/pessoa/byname")
-
-                        .then()
-                        .log().all()
-                        .extract().as(PessoaDTO[].class)
-                ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+                .queryParam("nome", nome)
+            .when()
+                .get(baseUri + "/pessoa/byname")
+            .then()
+                .log().all()
+                .extract().as(PessoaDTO[].class)
+            ;
         return result;
     }
 
     public Response consultarNomeInvalido(String nome) {
         Response result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-                        .queryParam("nome", nome)
-
-                        .when()
-                        .get(baseUri + "/pessoa/byname")
-
-                        .then()
-                        .log().all()
-                        .extract().response()
-                        ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+                .queryParam("nome", nome)
+            .when()
+                .get(baseUri + "/pessoa/byname")
+            .then()
+                .log().all()
+                .extract().response()
+            ;
         return result;
     }
 
     public PessoaRelatorioDTO listagemCompleta(String id) {
         PessoaRelatorioDTO result =
-                given()
-                        .log().all()
-                        .header("Authorization", tokenAdmin)
-                        .queryParam("idPessoa", id)
-
-                        .when()
-                        .get(baseUri + "/pessoa/lista-completa")
-
-                        .then()
-                        .log().all()
-                        .extract().as(PessoaRelatorioDTO.class)
-                ;
+            given()
+                .log().all()
+                .header("Authorization", tokenAdmin)
+                .queryParam("idPessoa", id)
+            .when()
+                .get(baseUri + "/pessoa/lista-completa")
+            .then()
+                .log().all()
+                .extract().as(PessoaRelatorioDTO.class)
+            ;
         return result;
     }
 
