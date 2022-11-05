@@ -6,14 +6,12 @@ import br.com.dbccompany.service.ContatoService;
 import br.com.dbccompany.service.PessoaService;
 import com.google.gson.Gson;
 import io.restassured.response.Response;
-import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class ContatoAceitacaoTest {
 

@@ -77,16 +77,16 @@ public class ContatoService {
 
     public Response listarContatosPorPessoaInvalido(String idPessoa) {
         Response result =
-                given()
-                        .header("Authorization", tokenAdmin)
-                        .pathParam("idPessoa", idPessoa)
-                        .when()
-                        .get(baseUri + "/contato/{idPessoa}")
-                        .then()
-                        .log().all()
-                        .statusCode(404)
-                        .extract().response()
-                ;
+            given()
+                .header("Authorization", tokenAdmin)
+                .pathParam("idPessoa", idPessoa)
+            .when()
+                .get(baseUri + "/contato/{idPessoa}")
+            .then()
+                .log().all()
+                .statusCode(404)
+                .extract().response()
+            ;
         return result;
     }
 
@@ -120,4 +120,5 @@ public class ContatoService {
             ;
         return result;
     }
+
 }

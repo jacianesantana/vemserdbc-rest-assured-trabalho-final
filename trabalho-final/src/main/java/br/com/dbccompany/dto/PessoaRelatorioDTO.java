@@ -12,10 +12,9 @@ public class PessoaRelatorioDTO {
     private String email;
     private String nomePet;
     private String numeroContato;
-    private String cep;;
+    private String cep;
     private String cidade;
     private String estado;
     private String pais;
 
 }
-
