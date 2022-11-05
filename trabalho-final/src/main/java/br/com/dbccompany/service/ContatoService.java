@@ -29,6 +29,23 @@ public class ContatoService {
         return result;
     }
 
+    public Response cadastrarContatoInvalido(String idPessoa, ContatoDTO objContato) {
+        Response result =
+            given()
+                .header("Authorization", tokenAdmin)
+                .pathParam("idPessoa", idPessoa)
+                .contentType(ContentType.JSON)
+                .body(objContato)
+            .when()
+                .post(baseUri + "/contato/{idPessoa}")
+            .then()
+                .log().all()
+                .statusCode(404)
+                .extract().response()
+            ;
+        return result;
+    }
+
     public ContatoDTO[] listarContatos() {
         ContatoDTO[] result =
             given()
@@ -58,6 +75,21 @@ public class ContatoService {
         return result;
     }
 
+    public Response listarContatosPorPessoaInvalido(String idPessoa) {
+        Response result =
+                given()
+                        .header("Authorization", tokenAdmin)
+                        .pathParam("idPessoa", idPessoa)
+                        .when()
+                        .get(baseUri + "/contato/{idPessoa}")
+                        .then()
+                        .log().all()
+                        .statusCode(404)
+                        .extract().response()
+                ;
+        return result;
+    }
+
     public ContatoDTO atualizarContatoPorId(String idContato, ContatoDTO objContato) {
         ContatoDTO result =
             given()
@@ -84,7 +116,6 @@ public class ContatoService {
                 .delete(baseUri + "/contato/{idContato}")
             .then()
                 .log().all()
-                .statusCode(200)
                 .extract().response();
             ;
         return result;
