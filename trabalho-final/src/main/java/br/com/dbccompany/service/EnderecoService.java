@@ -53,7 +53,8 @@ public class EnderecoService {
         PageEnderecoDTO result =
             given()
                 .header("Authorization", tokenAdmin)
-                .queryParams("pagina", page, "tamanhoDasPaginas", size)
+                .queryParam("pagina", page)
+                .queryParam("tamanhoDasPaginas", size)
             .when()
                 .get(baseUri + "/endereco")
             .then()
@@ -64,7 +65,7 @@ public class EnderecoService {
         return result;
     }
 
-    public EnderecoDTO listarEnderecoPorId(String idEndereco) {
+    public EnderecoDTO buscarEnderecoPorId(String idEndereco) {
         EnderecoDTO result =
             given()
                 .header("Authorization", tokenAdmin)
@@ -79,13 +80,29 @@ public class EnderecoService {
         return result;
     }
 
+    public Response buscarEnderecoPorIdInvalido(String idEndereco) {
+        Response result =
+            given()
+                .header("Authorization", tokenAdmin)
+                .pathParam("idEndereco", idEndereco)
+            .when()
+                .get(baseUri + "/endereco/{idEndereco}")
+            .then()
+                .log().all()
+                .statusCode(404)
+                .extract().response()
+            ;
+        return result;
+    }
+
     public EnderecoDTO[] listarEnderecosPorPais(String pais) {
         EnderecoDTO[] result =
             given()
                 .header("Authorization", tokenAdmin)
-                .pathParam("pais", pais)
+                //.queryParam("pais", pais)     // forma correta
+                .queryParam("País", pais)
             .when()
-                .get(baseUri + "/endereco/retorna-por-pais/{pais}")
+                .get(baseUri + "/endereco/retorna-por-pais")
             .then()
                 .log().all()
                 .statusCode(200)
@@ -98,13 +115,27 @@ public class EnderecoService {
         EnderecoDTO[] result =
             given()
                 .header("Authorization", tokenAdmin)
-                .pathParam("idPessoa", idPessoa)
+                .queryParam("idPessoa", idPessoa)
             .when()
-                .get(baseUri + "/endereco/retorna-por-id-pessoa/{idPessoa}")
+                .get(baseUri + "/endereco/retorna-por-id-pessoa")
             .then()
                 .log().all()
                 .statusCode(200)
                 .extract().as(EnderecoDTO[].class)
+            ;
+        return result;
+    }
+
+    public Response listarEnderecosPorPessoaInvalido(String idPessoa) {
+        Response result =
+            given()
+                .header("Authorization", tokenAdmin)
+                .queryParam("idPessoa", idPessoa)
+            .when()
+                .get(baseUri + "/endereco/retorna-por-id-pessoa")
+            .then()
+                .log().all()
+                .extract().response()
             ;
         return result;
     }
