@@ -225,22 +225,30 @@ public class ContatoAceitacaoTest {
         PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
         ContatoDTO objContato = gson.fromJson(jsonBody, ContatoDTO.class);
         objContato.setIdPessoa(pessoa.getIdPessoa());
-        ContatoDTO resultService = service.cadastrarContato(pessoa.getIdPessoa(), objContato);
+        ContatoDTO contato = service.cadastrarContato(pessoa.getIdPessoa(), objContato);
 
-        Response response = service.deletarContatoPorId(resultService.getIdContato());
+        Response resultService = service.deletarContatoPorId(contato.getIdContato());
 
-        Assert.assertEquals(response.statusCode(), 200);
+        Assert.assertEquals(resultService.statusCode(), 200);
         servicePessoa.deletarPorId(pessoa.getIdPessoa());
     }
 
     @Test
+    public void deveNaoDeletarContatoComIdVazio() {
+        String idContatoInvalido = "";
+
+        Response resultService = service.deletarContatoPorId(idContatoInvalido);
+
+        Assert.assertEquals(resultService.statusCode(), 405);
+    }
+
+    @Test
     public void deveNaoDeletarContatoComIdInexistente() {
-        PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
+        String idContatoInvalido = "19931019";
 
-        Response response = service.deletarContatoPorId("19931019");
+        Response resultService = service.deletarContatoPorId(idContatoInvalido);
 
-        Assert.assertEquals(response.statusCode(), 404);
-        servicePessoa.deletarPorId(pessoa.getIdPessoa());
+        Assert.assertEquals(resultService.statusCode(), 404);
     }
 
 }
