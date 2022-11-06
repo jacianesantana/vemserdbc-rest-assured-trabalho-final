@@ -126,6 +126,22 @@ public class EnderecoService {
         return result;
     }
 
+    public Response atualizarEnderecoPorIdInvalido(String idEndereco, EnderecoDTO objEndereco) {
+        Response result =
+            given()
+                .header("Authorization", tokenAdmin)
+                .contentType(ContentType.JSON)
+                .pathParam("idEndereco", idEndereco)
+                .body(objEndereco)
+            .when()
+                .put(baseUri + "/endereco/{idEndereco}")
+            .then()
+                .log().all()
+                .extract().response()
+            ;
+        return result;
+    }
+
     public Response deletarEnderecoPorId(String idEndereco) {
         Response result =
             given()
@@ -135,7 +151,6 @@ public class EnderecoService {
                 .delete(baseUri + "/endereco/{idEndereco}")
             .then()
                 .log().all()
-                .statusCode(200)
                 .extract().response()
             ;
         return result;

@@ -1,5 +1,6 @@
 package br.com.dbccompany.aceitacao;
 
+import br.com.dbccompany.dto.ContatoDTO;
 import br.com.dbccompany.dto.EnderecoDTO;
 import br.com.dbccompany.dto.PageEnderecoDTO;
 import br.com.dbccompany.dto.PessoaDTO;
@@ -84,7 +85,7 @@ public class EnderecoAceitacaoTest {
         servicePessoa.deletarPorId(pessoa.getIdPessoa());
     }
 
-    @Test
+/*    @Test
     public void deveListarEnderecos() {
         PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
         EnderecoDTO objEndereco = gson.fromJson(jsonBody, EnderecoDTO.class);
@@ -101,7 +102,7 @@ public class EnderecoAceitacaoTest {
 
         service.deletarEnderecoPorId(resultService.getContent().get(0).getIdEndereco());
         servicePessoa.deletarPorId(pessoa.getIdPessoa());
-    }
+    }*/
 
 /*    @Test
     public void deveListarEnderecoPorId() {
@@ -148,32 +149,140 @@ public class EnderecoAceitacaoTest {
         service.deletarEnderecoPorId(resultService[0].getIdEndereco());
     }*/
 
-/*    @Test
+    @Test
     public void deveAtualizarEnderecoPorId() throws IOException {
-        service.cadastrarEndereco(idPessoa, jsonBody);
+        PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
+        EnderecoDTO objEndereco = gson.fromJson(jsonBody, EnderecoDTO.class);
+        objEndereco.setIdPessoa(pessoa.getIdPessoa());
+        EnderecoDTO endereco = service.cadastrarEndereco(pessoa.getIdPessoa(), objEndereco);
 
-        String idEndereco = "XXX";
         String jsonBody2 = lerJson("src/test/resources/data/endereco2.json");
+        EnderecoDTO objEndereco2 = gson.fromJson(jsonBody2, EnderecoDTO.class);
+        objEndereco2.setIdPessoa(pessoa.getIdPessoa());
+        objEndereco2.setIdEndereco(endereco.getIdEndereco());
 
-        EnderecoDTO resultService = service.atualizarEnderecoPorId(idEndereco, jsonBody2);
+        EnderecoDTO resultService = service.atualizarEnderecoPorId(endereco.getIdEndereco(), objEndereco2);
 
-        Assert.assertEquals(resultService.getIdPessoa(), "1910");
-        Assert.assertEquals(resultService.getTipo(), "RESIDENCIAL");
-        Assert.assertEquals(resultService.getLogradouro(), "Av Euclides Figueiredo");
-        Assert.assertEquals(resultService.getIdEndereco(), "XXX");
+        Assert.assertEquals(resultService.getIdEndereco(), objEndereco2.getIdEndereco());
+        Assert.assertEquals(resultService.getLogradouro(), "Av Silveira Martins");
+        Assert.assertEquals(resultService.getCidade(), "Salvador");
 
         service.deletarEnderecoPorId(resultService.getIdEndereco());
-    }*/
+        servicePessoa.deletarPorId(pessoa.getIdPessoa());
+    }
 
-/*    @Test
+    @Test
+    public void deveNaoAtualizarEnderecoComBodyVazio() throws IOException {
+        PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
+        EnderecoDTO objEndereco = gson.fromJson(jsonBody, EnderecoDTO.class);
+        objEndereco.setIdPessoa(pessoa.getIdPessoa());
+        EnderecoDTO endereco = service.cadastrarEndereco(pessoa.getIdPessoa(), objEndereco);
+
+        String jsonBodyVazio = lerJson("src/test/resources/data/endereco-vazio.json");
+        EnderecoDTO objEndereco2 = gson.fromJson(jsonBodyVazio, EnderecoDTO.class);
+        objEndereco2.setIdPessoa(pessoa.getIdPessoa());
+        objEndereco2.setIdEndereco(endereco.getIdEndereco());
+
+        Response resultService = service.atualizarEnderecoPorIdInvalido(endereco.getIdEndereco(), objEndereco2);
+
+        Assert.assertEquals(resultService.statusCode(), 400);
+
+        service.deletarEnderecoPorId(endereco.getIdEndereco());
+        servicePessoa.deletarPorId(pessoa.getIdPessoa());
+    }
+
+    @Test
+    public void deveNaoAtualizarEnderecoComIdPessoaInexistente() throws IOException {
+        PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
+        EnderecoDTO objEndereco = gson.fromJson(jsonBody, EnderecoDTO.class);
+        objEndereco.setIdPessoa(pessoa.getIdPessoa());
+        EnderecoDTO endereco = service.cadastrarEndereco(pessoa.getIdPessoa(), objEndereco);
+
+        String idPessoaInvalido = "19931019";
+
+        String jsonBody2 = lerJson("src/test/resources/data/endereco2.json");
+        EnderecoDTO objEndereco2 = gson.fromJson(jsonBody2, EnderecoDTO.class);
+        objEndereco2.setIdPessoa(pessoa.getIdPessoa());
+        objEndereco2.setIdEndereco(endereco.getIdEndereco());
+
+        Response resultService = service.atualizarEnderecoPorIdInvalido(idPessoaInvalido, objEndereco2);
+
+        Assert.assertEquals(resultService.statusCode(), 404);
+
+        service.deletarEnderecoPorId(endereco.getIdEndereco());
+        servicePessoa.deletarPorId(pessoa.getIdPessoa());
+    }
+
+    @Test
+    public void deveNaoAtualizarEnderecoComIdEnderecoPertencenteAOutroIdPessoa() throws IOException {
+        // Ao passar no path o idEndereco de uma pessoa e no body o idPessoa de outra pessoa,
+        // ambas tendo endereço cadastrado
+        // O teste está devolveu erro 500
+        // Porém no swagger informa atualizar o endereço referente a pessoa do idPessoa
+        // mas ao buscar no banco de dados, está adicionando como endereço novo na pessoa referente ao idPessoa
+        // e removendo o endereço da pessoa referente ao idContato
+
+        PessoaDTO pessoa1 = servicePessoa.criarPessoa(jsonBodyPessoa);
+        EnderecoDTO objEndereco1 = gson.fromJson(jsonBody, EnderecoDTO.class);
+        objEndereco1.setIdPessoa(pessoa1.getIdPessoa());
+        EnderecoDTO enderecoPessoa1 = service.cadastrarEndereco(pessoa1.getIdPessoa(), objEndereco1);
+
+        String jsonBodyPessoa2 = lerJson("src/test/resources/data/pessoa2.json");
+        PessoaDTO pessoa2 = servicePessoa.criarPessoa(jsonBodyPessoa2);
+        String jsonBody2 = lerJson("src/test/resources/data/endereco2.json");
+        EnderecoDTO objEndereco2 = gson.fromJson(jsonBody2, EnderecoDTO.class);
+        objEndereco2.setIdPessoa(pessoa2.getIdPessoa());
+        EnderecoDTO enderecoPessoa2 = service.cadastrarEndereco(pessoa2.getIdPessoa(), objEndereco2);
+
+        String jsonBody3 = lerJson("src/test/resources/data/endereco3.json");
+        EnderecoDTO objEndereco3 = gson.fromJson(jsonBody3, EnderecoDTO.class);
+        objEndereco2.setIdPessoa(enderecoPessoa2.getIdPessoa());
+        objEndereco2.setIdEndereco(enderecoPessoa2.getIdEndereco());
+
+        Response response = service.atualizarEnderecoPorIdInvalido(enderecoPessoa1.getIdEndereco(), objEndereco3);
+        //EnderecoDTO resultService = service.atualizarEnderecoPorId(enderecoPessoa1.getIdEndereco(), objEndereco3);
+
+        Assert.assertEquals(response.statusCode(), 404);
+        //Assert.assertEquals(resultService.getIdEndereco(), objEndereco2.getIdEndereco());
+        //Assert.assertEquals(resultService.getIdPessoa(), objEndereco1.getIdPessoa());
+        //Assert.assertEquals(resultService.getTipo(), "COMERCIAL");
+
+        service.deletarEnderecoPorId(enderecoPessoa1.getIdEndereco());
+        service.deletarEnderecoPorId(enderecoPessoa2.getIdEndereco());
+        servicePessoa.deletarPorId(pessoa1.getIdPessoa());
+        servicePessoa.deletarPorId(pessoa2.getIdPessoa());
+    }
+
+    @Test
     public void deveDeletarEnderecoPorId() {
-        service.cadastrarEndereco(idPessoa, jsonBody);
+        PessoaDTO pessoa = servicePessoa.criarPessoa(jsonBodyPessoa);
+        EnderecoDTO objEndereco = gson.fromJson(jsonBody, EnderecoDTO.class);
+        objEndereco.setIdPessoa(pessoa.getIdPessoa());
+        EnderecoDTO endereco = service.cadastrarEndereco(pessoa.getIdPessoa(), objEndereco);
 
-        String idEndereco = "XXX";
-
-        HttpResponse resultService = service.deletarEnderecoPorId(idEndereco);
+        Response resultService = service.deletarEnderecoPorId(endereco.getIdEndereco());
 
         Assert.assertEquals(resultService.statusCode(), 200);
-    }*/
+
+        servicePessoa.deletarPorId(pessoa.getIdPessoa());
+    }
+
+    @Test
+    public void NaoDeveDeletarEnderecoComIdVazio() {
+        String idEnderecoInvalido = "";
+
+        Response resultService = service.deletarEnderecoPorId(idEnderecoInvalido);
+
+        Assert.assertEquals(resultService.statusCode(), 405);
+    }
+
+    @Test
+    public void NaoDeveDeletarEnderecoComIdInexistente() {
+        String idEnderecoInvalido = "19931019";
+
+        Response resultService = service.deletarEnderecoPorId(idEnderecoInvalido);
+
+        Assert.assertEquals(resultService.statusCode(), 404);
+    }
 
 }

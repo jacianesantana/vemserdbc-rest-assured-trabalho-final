@@ -1,0 +1,11 @@
+{
+  "idPessoa": "",
+  "tipo": "COMERCIAL",
+  "logradouro": "Av ACM",
+  "numero": 69,
+  "complemento": "sala 1010",
+  "cep": "41900900",
+  "cidade": "Salvador",
+  "estado": "BA",
+  "pais": "BR"
+}
