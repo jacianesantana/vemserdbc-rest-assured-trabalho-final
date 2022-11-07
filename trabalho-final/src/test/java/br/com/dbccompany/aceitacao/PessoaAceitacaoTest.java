@@ -189,7 +189,7 @@ public class PessoaAceitacaoTest {
     public void deveRetornarLista() {
         String id = "80";
 
-        PessoaRelatorioDTO resultService = service.listagemCompleta(id);
+        PessoaCompletaDTO[] resultService = service.listagemCompleta(id);
 
         Assert.assertEquals(resultService, "80");
     }
