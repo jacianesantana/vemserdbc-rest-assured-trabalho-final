@@ -214,8 +214,8 @@ public class PessoaService {
         return result;
     }
 
-    public PessoaRelatorioDTO listagemCompleta(String id) {
-        PessoaRelatorioDTO result =
+    public PessoaCompletaDTO[] listagemCompleta(String id) {
+        PessoaCompletaDTO[] result =
             given()
                 .log().all()
                 .header("Authorization", tokenAdmin)
@@ -224,7 +224,7 @@ public class PessoaService {
                 .get(baseUri + "/pessoa/lista-completa")
             .then()
                 .log().all()
-                .extract().as(PessoaRelatorioDTO.class)
+                .extract().as(PessoaCompletaDTO[].class)
             ;
         return result;
     }

@@ -328,7 +328,7 @@ public class EnderecoAceitacaoTest {
     }
 
     @Test
-    public void NaoDeveDeletarEnderecoComIdVazio() {
+    public void deveNaoDeletarEnderecoComIdVazio() {
         String idEnderecoInvalido = "";
 
         Response resultService = service.deletarEnderecoPorId(idEnderecoInvalido);
@@ -337,7 +337,7 @@ public class EnderecoAceitacaoTest {
     }
 
     @Test
-    public void NaoDeveDeletarEnderecoComIdInexistente() {
+    public void deveNaoDeletarEnderecoComIdInexistente() {
         String idEnderecoInvalido = "19931019";
 
         Response resultService = service.deletarEnderecoPorId(idEnderecoInvalido);
