@@ -1,11 +1,11 @@
-package Itera;
+package Itera.step;
+
 
 import com.github.javafaker.Faker;
-import org.junit.After;
-import org.junit.Before;
+
 import org.junit.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
+
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -16,31 +16,14 @@ import java.util.concurrent.TimeUnit;
 
 import static org.testng.AssertJUnit.*;
 
-public class TesteItera {
+public class TesteItera extends BaseTest {
+
     public static WebDriver driver;
     public static WebDriverWait wait;
     Faker fake = new Faker();
 
 
-    @Before
-    public void abrirNavegador() {
-        System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
 
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 40);
-        driver.get("https://itera-qa.azurewebsites.net/home/automation");
-
-        //Maximizar
-        driver.manage().window().maximize();
-
-        //Delay
-        driver.manage().timeouts().implicitlyWait(6000, TimeUnit.MILLISECONDS);
-    }
-
-    @After
-    public void fecharNavegador() {
-        driver.quit();
-    }
     @Test
     public void clicarSubmitComCamposValidos() {
 

@@ -1,4 +1,4 @@
-package Itera;
+package Itera.step;
 
 import com.github.javafaker.Faker;
 import org.junit.After;
@@ -48,5 +48,5 @@ public class PrimeiroTeste {
         driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
 
     }
-    
+
 }
